@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+:root {
+  --paper: #f1f0eb;
+  --surface: #faf9f5;
+  --ink: #222522;
+  --muted: #6c706a;
+  --line: #c8c8c0;
+  --accent: #9c3f32;
+  --accent-dark: #793127;
+  --font-sans: Arial, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+.site {
+  min-height: 100vh;
+  background: var(--paper);
+}
+
+.page-shell {
+  min-height: calc(100vh - 166px);
+  padding: 72px clamp(20px, 7vw, 110px) 100px;
+}
+
+.eyebrow {
+  margin: 0 0 22px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.simple-page-header {
+  max-width: 850px;
+  padding-bottom: 58px;
+}
+
+.simple-page-header h1,
+.not-found h1 {
+  margin: 0;
+  font: 400 clamp(52px, 6vw, 88px) / 0.96 var(--font-serif);
+  letter-spacing: -0.05em;
+}
+
+.simple-page-header > p:last-child {
+  max-width: 620px;
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.primary-link {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 15px;
+  padding: 13px 17px;
+  background: var(--ink);
+  color: white;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.primary-link:hover {
+  background: var(--accent-dark);
+}
+
+.secondary-button {
+  display: flex;
+  height: 42px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: not-allowed;
+  font-size: 11px;
+}
+
+@media (max-width: 650px) {
+  .simple-page-header h1 {
+    font-size: 49px;
+  }
+}

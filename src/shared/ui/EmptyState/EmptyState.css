@@ -1,0 +1,50 @@
+.empty-state {
+  display: flex;
+  min-height: 430px;
+  align-items: center;
+  justify-content: center;
+  padding: 45px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  text-align: center;
+  flex-direction: column;
+}
+
+.empty-state svg {
+  color: var(--accent);
+}
+
+.empty-state h2 {
+  margin: 18px 0 8px;
+  font: 400 32px var(--font-serif);
+}
+
+.empty-state p {
+  max-width: 550px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.empty-state button {
+  margin-top: 23px;
+  padding: 11px 15px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.empty-state small {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+@media (max-width: 650px) {
+  .empty-state {
+    min-height: 360px;
+    padding: 25px;
+  }
+}
