@@ -95,11 +95,18 @@
   background: var(--accent-dark);
 }
 
-.profile-preview {
+.profile-page {
+  display: grid;
+  min-height: calc(100vh - 166px);
+  grid-template-columns: minmax(320px, 0.65fr) 1.35fr;
+}
+
+.profile-summary {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  text-align: center;
+  padding: 70px clamp(25px, 6vw, 90px);
+  border-right: 1px solid var(--line);
   flex-direction: column;
 }
 
@@ -112,12 +119,12 @@
   border: 1px solid var(--ink);
 }
 
-.profile-preview h1 {
+.profile-summary h1 {
   margin: 0;
-  font: 400 64px var(--font-serif);
+  font: 400 clamp(48px, 5vw, 72px) var(--font-serif);
 }
 
-.profile-preview > p:not(.eyebrow) {
+.profile-summary > p:not(.eyebrow) {
   color: var(--muted);
 }
 
@@ -132,9 +139,105 @@
   font-size: 10px;
 }
 
+.profile-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.profile-history {
+  padding: 70px clamp(25px, 6vw, 90px);
+}
+
+.profile-history > header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.profile-history h2 {
+  margin: 0;
+  font: 400 42px var(--font-serif);
+}
+
+.profile-history header > span {
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.profile-comments {
+  display: grid;
+}
+
+.profile-comments a {
+  display: grid;
+  gap: 10px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.profile-comments a:hover p {
+  color: var(--accent);
+}
+
+.profile-comments span {
+  color: var(--accent);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.profile-comments p {
+  margin: 0;
+  font: 400 20px / 1.45 var(--font-serif);
+  transition: color 0.2s ease;
+}
+
+.profile-comments time {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.profile-history__empty {
+  display: flex;
+  min-height: 330px;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  text-align: center;
+  flex-direction: column;
+}
+
+.profile-history__empty svg {
+  color: var(--accent);
+}
+
+.profile-history__empty a {
+  color: var(--accent);
+  font-size: 11px;
+}
+
 @media (max-width: 1100px) {
+  .profile-page,
   .registration {
     grid-template-columns: 1fr;
+  }
+
+  .profile-summary {
+    min-height: 500px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 
   .registration__copy {

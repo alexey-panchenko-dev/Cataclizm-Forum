@@ -1,40 +1,83 @@
-import { Check, UserRound } from 'lucide-react';
-import { useState, type FormEvent } from 'react';
+import { Check, LogOut, MessageSquareText, UserRound } from 'lucide-react';
+import type { FormEvent } from 'react';
+import { Link } from 'react-router-dom';
+import { useAppStore } from '@/app/store/useAppStore';
+import { events as initialEvents } from '@/entities/disaster/model/events';
+import { formatDate } from '@/shared/lib/formatDate';
 import './ProfilePage.css';
 
-type PreviewProfile = {
-  nickname: string;
-  email: string;
-};
-
 export function ProfilePage() {
-  const [profile, setProfile] = useState<PreviewProfile | null>(null);
+  const profile = useAppStore((state) => state.profile);
+  const comments = useAppStore((state) => state.comments);
+  const customEvents = useAppStore((state) => state.customEvents);
+  const saveProfile = useAppStore((state) => state.saveProfile);
+  const clearProfile = useAppStore((state) => state.clearProfile);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     const formData = new FormData(event.currentTarget);
-    const nickname = formData.get('nickname');
-    const email = formData.get('email');
 
-    if (typeof nickname === 'string' && typeof email === 'string') {
-      setProfile({ nickname, email });
-    }
+    saveProfile({
+      nickname: String(formData.get('nickname')),
+      email: String(formData.get('email')),
+    });
   }
 
   if (profile) {
+    const allEvents = [...initialEvents, ...customEvents];
+    const userComments = comments.filter((comment) => comment.authorEmail === profile.email);
+
     return (
-      <main className="page-shell profile-preview">
-        <div className="profile-avatar">
-          <UserRound />
-        </div>
-        <p className="eyebrow">Профиль текущего сеанса</p>
-        <h1>{profile.nickname}</h1>
-        <p>{profile.email}</p>
-        <div className="preview-note">
-          <Check size={16} />
-          На первом этапе профиль сохраняется только до перезагрузки страницы.
-        </div>
+      <main className="profile-page">
+        <section className="profile-summary">
+          <div className="profile-avatar">
+            <UserRound />
+          </div>
+          <p className="eyebrow">Личный профиль</p>
+          <h1>{profile.nickname}</h1>
+          <p>{profile.email}</p>
+          <div className="preview-note">
+            <Check size={16} /> Данные сохранены на этом устройстве
+          </div>
+          <button className="profile-logout" type="button" onClick={clearProfile}>
+            <LogOut size={15} /> Выйти из профиля
+          </button>
+        </section>
+
+        <section className="profile-history">
+          <header>
+            <div>
+              <p className="eyebrow">История активности</p>
+              <h2>Ваши комментарии</h2>
+            </div>
+            <span>{userComments.length} записей</span>
+          </header>
+
+          {userComments.length > 0 ? (
+            <div className="profile-comments">
+              {userComments.map((comment) => {
+                const event = allEvents.find((item) => item.id === comment.eventId);
+
+                return (
+                  <Link
+                    key={comment.id}
+                    to={`/events/${comment.eventId}?comment=${comment.id}`}
+                  >
+                    <span>{event?.title ?? 'Событие'}</span>
+                    <p>{comment.text}</p>
+                    <time>{formatDate(comment.createdAt)}</time>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="profile-history__empty">
+              <MessageSquareText />
+              <p>Вы пока не оставляли комментариев.</p>
+              <Link to="/events">Перейти к событиям</Link>
+            </div>
+          )}
+        </section>
       </main>
     );
   }
@@ -45,8 +88,8 @@ export function ProfilePage() {
         <p className="eyebrow">Личный профиль</p>
         <h1>Ваш голос в общем архиве.</h1>
         <p>
-          Профиль нужен, чтобы оставлять комментарии, сохранять события и добавлять материалы.
-          На следующем этапе данные будут сохраняться на этом устройстве.
+          Профиль нужен, чтобы оставлять комментарии, добавлять события и публиковать
+          материалы. Данные сохраняются только на вашем устройстве.
         </p>
       </section>
 

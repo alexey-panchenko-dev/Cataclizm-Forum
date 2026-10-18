@@ -1,11 +1,40 @@
 import { ArrowLeft, ExternalLink, MessageSquareText } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
-import { getEventById } from '@/entities/disaster/model/events';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useAppStore } from '@/app/store/useAppStore';
+import { events as initialEvents } from '@/entities/disaster/model/events';
+import { CommentForm } from '@/features/comments/CommentForm/CommentForm';
+import { formatDate } from '@/shared/lib/formatDate';
 import './EventDetailsPage.css';
 
 export function EventDetailsPage() {
   const { eventId = '' } = useParams();
-  const event = getEventById(eventId);
+  const [searchParams] = useSearchParams();
+  const [highlightedCommentId, setHighlightedCommentId] = useState<string | null>(null);
+  const customEvents = useAppStore((state) => state.customEvents);
+  const comments = useAppStore((state) => state.comments);
+
+  const event = [...initialEvents, ...customEvents].find((item) => item.id === eventId);
+  const eventComments = useMemo(
+    () => comments.filter((comment) => comment.eventId === eventId),
+    [comments, eventId],
+  );
+  const commentFromProfile = searchParams.get('comment');
+
+  useEffect(() => {
+    if (!commentFromProfile || !eventComments.some((item) => item.id === commentFromProfile)) {
+      return;
+    }
+
+    setHighlightedCommentId(commentFromProfile);
+    document.getElementById(`comment-${commentFromProfile}`)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+
+    const timeout = window.setTimeout(() => setHighlightedCommentId(null), 3000);
+    return () => window.clearTimeout(timeout);
+  }, [commentFromProfile, eventComments]);
 
   if (!event) {
     return (
@@ -38,9 +67,13 @@ export function EventDetailsPage() {
           <span>Место</span>
           <strong>{event.location}</strong>
           <span>Источник</span>
-          <a href={event.sourceUrl} target="_blank" rel="noreferrer">
-            {event.sourceName} <ExternalLink size={13} />
-          </a>
+          {event.sourceUrl ? (
+            <a href={event.sourceUrl} target="_blank" rel="noreferrer">
+              {event.sourceName} <ExternalLink size={13} />
+            </a>
+          ) : (
+            <strong>{event.sourceName}</strong>
+          )}
         </aside>
       </header>
 
@@ -49,14 +82,19 @@ export function EventDetailsPage() {
           <p className="eyebrow">О событии</p>
           <p className="lead-text">{event.description}</p>
         </article>
+
         <aside className="timeline">
           <p className="eyebrow">Хронология</p>
-          {event.timeline.map((item) => (
-            <div key={`${item.time}-${item.text}`}>
-              <time>{item.time}</time>
-              <p>{item.text}</p>
-            </div>
-          ))}
+          {event.timeline.length > 0 ? (
+            event.timeline.map((item) => (
+              <div key={`${item.time}-${item.text}`}>
+                <time>{item.time}</time>
+                <p>{item.text}</p>
+              </div>
+            ))
+          ) : (
+            <p className="timeline__empty">Хронология для этого события пока не добавлена.</p>
+          )}
         </aside>
       </section>
 
@@ -66,17 +104,38 @@ export function EventDetailsPage() {
             <p className="eyebrow">Личные свидетельства</p>
             <h2>Комментарии</h2>
           </div>
-          <span>0 записей</span>
+          <span>{eventComments.length} записей</span>
         </div>
-        <div className="comments__empty">
-          <MessageSquareText />
-          <h3>Здесь пока нет комментариев</h3>
-          <p>
-            После регистрации пользователь сможет оставить первое свидетельство об этом
-            событии.
-          </p>
-          <Link to="/profile">Перейти к регистрации</Link>
-        </div>
+
+        <CommentForm eventId={event.id} />
+
+        {eventComments.length > 0 ? (
+          <div className="comments__list">
+            {eventComments.map((comment) => (
+              <article
+                id={`comment-${comment.id}`}
+                key={comment.id}
+                className={
+                  highlightedCommentId === comment.id
+                    ? 'comment-card comment-card--highlighted'
+                    : 'comment-card'
+                }
+              >
+                <header>
+                  <strong>{comment.author}</strong>
+                  <time>{formatDate(comment.createdAt)}</time>
+                </header>
+                <p>{comment.text}</p>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <div className="comments__empty">
+            <MessageSquareText />
+            <h3>Здесь пока нет комментариев</h3>
+            <p>Вы можете оставить первое свидетельство об этом событии.</p>
+          </div>
+        )}
       </section>
     </main>
   );

@@ -1,11 +1,13 @@
 import { Menu, UserRound, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useAppStore } from '@/app/store/useAppStore';
 import { navigationItems } from '@/shared/config/navigation';
 import './SiteHeader.css';
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const profile = useAppStore((state) => state.profile);
 
   function closeMenu() {
     setIsMenuOpen(false);
@@ -32,7 +34,7 @@ export function SiteHeader() {
       <div className="header-actions">
         <NavLink className="profile-link" to="/profile">
           <UserRound size={17} />
-          Профиль
+          {profile?.nickname ?? 'Профиль'}
         </NavLink>
         <button
           className="menu-button"

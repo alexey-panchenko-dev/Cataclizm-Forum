@@ -33,6 +33,10 @@
   border: 1px solid var(--line);
   background: transparent;
   color: var(--muted);
+  cursor: pointer;
+}
+
+.empty-state button:disabled {
   cursor: not-allowed;
 }
 

@@ -1,0 +1,122 @@
+.modal-backdrop {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  overflow-y: auto;
+  place-items: center;
+  padding: 30px 20px;
+  background: rgb(34 37 34 / 65%);
+}
+
+.modal {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 32px;
+  border: 1px solid var(--ink);
+  background: var(--surface);
+  box-shadow: 14px 14px 0 rgb(34 37 34 / 20%);
+}
+
+.modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.modal__header .eyebrow {
+  margin-bottom: 10px;
+}
+
+.modal__header h2 {
+  margin: 0;
+  font: 400 36px var(--font-serif);
+}
+
+.modal__header button {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  cursor: pointer;
+}
+
+.data-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.data-form label {
+  display: flex;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  flex-direction: column;
+}
+
+.data-form label.full-width {
+  grid-column: 1 / -1;
+}
+
+.data-form input,
+.data-form select,
+.data-form textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  outline: none;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 13px;
+  text-transform: none;
+}
+
+.data-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.data-form input:focus,
+.data-form select:focus,
+.data-form textarea:focus {
+  border-color: var(--accent);
+}
+
+.data-form__submit {
+  min-height: 44px;
+  grid-column: 1 / -1;
+  border: 0;
+  background: var(--ink);
+  color: white;
+  cursor: pointer;
+}
+
+.data-form__submit:hover {
+  background: var(--accent-dark);
+}
+
+@media (max-width: 600px) {
+  .modal {
+    padding: 22px;
+  }
+
+  .data-form {
+    grid-template-columns: 1fr;
+  }
+
+  .data-form label.full-width,
+  .data-form__submit {
+    grid-column: auto;
+  }
+}

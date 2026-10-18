@@ -111,6 +111,11 @@
   line-height: 1.6;
 }
 
+.timeline .timeline__empty {
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
 .comments {
   padding-top: 70px;
 }
@@ -164,6 +169,45 @@
 .not-found a {
   color: var(--accent);
   font-size: 11px;
+}
+
+.comments__list {
+  display: grid;
+}
+
+.comment-card {
+  padding: 26px 0;
+  border-bottom: 1px solid var(--line);
+  transition: background 0.3s ease, padding 0.3s ease;
+}
+
+.comment-card--highlighted {
+  padding-right: 20px;
+  padding-left: 20px;
+  background: #e6dac8;
+}
+
+.comment-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.comment-card strong {
+  font: 400 20px var(--font-serif);
+}
+
+.comment-card time {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.comment-card p {
+  max-width: 820px;
+  margin: 15px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .not-found {

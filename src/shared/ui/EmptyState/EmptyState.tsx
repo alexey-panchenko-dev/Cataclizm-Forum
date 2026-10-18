@@ -6,18 +6,19 @@ type EmptyStateProps = {
   title: string;
   text: string;
   action: string;
+  onAction?: () => void;
 };
 
-export function EmptyState({ icon: Icon, title, text, action }: EmptyStateProps) {
+export function EmptyState({ icon: Icon, title, text, action, onAction }: EmptyStateProps) {
   return (
     <section className="empty-state">
       <Icon size={28} />
       <h2>{title}</h2>
       <p>{text}</p>
-      <button type="button" disabled>
+      <button type="button" disabled={!onAction} onClick={onAction}>
         {action}
       </button>
-      <small>Добавление станет доступно на следующем этапе</small>
+      {!onAction && <small>Сначала создайте профиль</small>}
     </section>
   );
 }

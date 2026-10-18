@@ -1,0 +1,60 @@
+.comment-form {
+  display: grid;
+  gap: 10px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.comment-form label {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.comment-form textarea {
+  min-height: 110px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  outline: none;
+  background: var(--surface);
+  resize: vertical;
+}
+
+.comment-form textarea:focus {
+  border-color: var(--accent);
+}
+
+.comment-form > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.comment-form span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.comment-form button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 15px;
+  border: 0;
+  background: var(--ink);
+  color: white;
+  cursor: pointer;
+}
+
+.comment-login-note {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.comment-login-note a {
+  color: var(--accent);
+}
