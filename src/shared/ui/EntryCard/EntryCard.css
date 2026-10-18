@@ -32,11 +32,32 @@
 }
 
 .entry-card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
   margin-top: 28px;
   padding-top: 16px;
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 10px;
+}
+
+.entry-card__meta button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.entry-card__meta button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 @media (max-width: 800px) {

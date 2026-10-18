@@ -2,6 +2,7 @@ import { Menu, UserRound, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAppStore } from '@/app/store/useAppStore';
+import { ThemeToggle } from '@/features/theme/ThemeToggle/ThemeToggle';
 import { navigationItems } from '@/shared/config/navigation';
 import './SiteHeader.css';
 
@@ -29,9 +30,13 @@ export function SiteHeader() {
             {item.label}
           </NavLink>
         ))}
+        <NavLink className="mobile-profile-link" to="/profile" onClick={closeMenu}>
+          Профиль
+        </NavLink>
       </nav>
 
       <div className="header-actions">
+        <ThemeToggle />
         <NavLink className="profile-link" to="/profile">
           <UserRound size={17} />
           {profile?.nickname ?? 'Профиль'}

@@ -22,6 +22,25 @@
   text-decoration: none;
 }
 
+.event-details__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.event-details__actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
 .event-details__hero {
   display: grid;
   min-height: 440px;
@@ -184,7 +203,7 @@
 .comment-card--highlighted {
   padding-right: 20px;
   padding-left: 20px;
-  background: #e6dac8;
+  background: var(--highlight);
 }
 
 .comment-card header {
@@ -192,6 +211,28 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+}
+
+.comment-card header > div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.comment-card header button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.comment-card header button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .comment-card strong {

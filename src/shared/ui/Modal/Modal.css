@@ -6,7 +6,7 @@
   overflow-y: auto;
   place-items: center;
   padding: 30px 20px;
-  background: rgb(34 37 34 / 65%);
+  background: var(--overlay);
 }
 
 .modal {
@@ -16,7 +16,7 @@
   padding: 32px;
   border: 1px solid var(--ink);
   background: var(--surface);
-  box-shadow: 14px 14px 0 rgb(34 37 34 / 20%);
+  box-shadow: 14px 14px 0 var(--shadow);
 }
 
 .modal__header {
@@ -98,7 +98,7 @@
   grid-column: 1 / -1;
   border: 0;
   background: var(--ink);
-  color: white;
+  color: var(--paper);
   cursor: pointer;
 }
 

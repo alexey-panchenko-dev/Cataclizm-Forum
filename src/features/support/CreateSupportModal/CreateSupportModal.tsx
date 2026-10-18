@@ -3,17 +3,20 @@ import { useAppStore } from '@/app/store/useAppStore';
 import { Modal } from '@/shared/ui/Modal/Modal';
 
 export function CreateSupportModal({ onClose }: { onClose: () => void }) {
+  const profile = useAppStore((state) => state.profile);
   const addSupportResource = useAppStore((state) => state.addSupportResource);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    if (!profile) return;
 
+    const form = new FormData(event.currentTarget);
     addSupportResource({
       title: String(form.get('title')),
       category: String(form.get('category')),
       contact: String(form.get('contact')),
       description: String(form.get('description')),
+      creatorEmail: profile.email,
     });
     onClose();
   }

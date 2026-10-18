@@ -8,8 +8,30 @@
   --line: #c8c8c0;
   --accent: #9c3f32;
   --accent-dark: #793127;
+  --soft: #e5e3dc;
+  --shadow: #d9d8d1;
+  --highlight: #e6dac8;
+  --header-bg: rgb(241 240 235 / 94%);
+  --overlay: rgb(34 37 34 / 65%);
   --font-sans: Arial, sans-serif;
   --font-serif: Georgia, 'Times New Roman', serif;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --paper: #171916;
+  --surface: #20231f;
+  --ink: #efeee8;
+  --muted: #aaada5;
+  --line: #41453e;
+  --accent: #d17161;
+  --accent-dark: #a64d40;
+  --soft: #292d27;
+  --shadow: #0d0f0d;
+  --highlight: #49342f;
+  --header-bg: rgb(23 25 22 / 94%);
+  --overlay: rgb(5 6 5 / 78%);
+  color-scheme: dark;
 }
 
 * {
@@ -25,6 +47,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 a {
@@ -95,7 +118,7 @@ button {
   gap: 15px;
   padding: 13px 17px;
   background: var(--ink);
-  color: white;
+  color: var(--paper);
   font-size: 12px;
   text-decoration: none;
 }

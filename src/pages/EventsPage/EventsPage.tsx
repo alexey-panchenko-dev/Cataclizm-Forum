@@ -5,9 +5,12 @@ import { useAppStore } from '@/app/store/useAppStore';
 import { events as initialEvents } from '@/entities/disaster/model/events';
 import { EventCard } from '@/entities/disaster/ui/EventCard';
 import { CreateEventModal } from '@/features/events/CreateEventModal/CreateEventModal';
+import { useDocumentTitle } from '@/shared/lib/useDocumentTitle';
 import './EventsPage.css';
 
 export function EventsPage() {
+  useDocumentTitle('События');
+
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('Все категории');
   const [isModalOpen, setIsModalOpen] = useState(false);

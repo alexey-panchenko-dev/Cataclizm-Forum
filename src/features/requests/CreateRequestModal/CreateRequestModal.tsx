@@ -17,6 +17,7 @@ export function CreateRequestModal({ onClose }: { onClose: () => void }) {
       contact: String(form.get('contact')),
       description: String(form.get('description')),
       author: profile.nickname,
+      authorEmail: profile.email,
     });
     onClose();
   }

@@ -1,12 +1,16 @@
-import { Check, LogOut, MessageSquareText, UserRound } from 'lucide-react';
-import type { FormEvent } from 'react';
+import { Check, LogOut, MessageSquareText, Pencil, UserRound } from 'lucide-react';
+import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppStore } from '@/app/store/useAppStore';
 import { events as initialEvents } from '@/entities/disaster/model/events';
 import { formatDate } from '@/shared/lib/formatDate';
+import { useDocumentTitle } from '@/shared/lib/useDocumentTitle';
 import './ProfilePage.css';
 
 export function ProfilePage() {
+  useDocumentTitle('Профиль');
+
+  const [isEditing, setIsEditing] = useState(false);
   const profile = useAppStore((state) => state.profile);
   const comments = useAppStore((state) => state.comments);
   const customEvents = useAppStore((state) => state.customEvents);
@@ -21,6 +25,7 @@ export function ProfilePage() {
       nickname: String(formData.get('nickname')),
       email: String(formData.get('email')),
     });
+    setIsEditing(false);
   }
 
   if (profile) {
@@ -39,9 +44,31 @@ export function ProfilePage() {
           <div className="preview-note">
             <Check size={16} /> Данные сохранены на этом устройстве
           </div>
-          <button className="profile-logout" type="button" onClick={clearProfile}>
-            <LogOut size={15} /> Выйти из профиля
-          </button>
+          {isEditing ? (
+            <form className="profile-edit-form" onSubmit={handleSubmit}>
+              <label>
+                Никнейм
+                <input name="nickname" required minLength={2} defaultValue={profile.nickname} />
+              </label>
+              <label>
+                Почта
+                <input name="email" type="email" required defaultValue={profile.email} />
+              </label>
+              <div>
+                <button type="submit">Сохранить</button>
+                <button type="button" onClick={() => setIsEditing(false)}>Отмена</button>
+              </div>
+            </form>
+          ) : (
+            <div className="profile-actions">
+              <button type="button" onClick={() => setIsEditing(true)}>
+                <Pencil size={14} /> Изменить данные
+              </button>
+              <button type="button" onClick={clearProfile}>
+                <LogOut size={15} /> Выйти из профиля
+              </button>
+            </div>
+          )}
         </section>
 
         <section className="profile-history">

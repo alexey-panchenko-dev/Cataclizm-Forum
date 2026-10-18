@@ -1,18 +1,23 @@
-import { ArrowLeft, ExternalLink, MessageSquareText } from 'lucide-react';
+import { ArrowLeft, ExternalLink, MessageSquareText, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppStore } from '@/app/store/useAppStore';
 import { events as initialEvents } from '@/entities/disaster/model/events';
 import { CommentForm } from '@/features/comments/CommentForm/CommentForm';
 import { formatDate } from '@/shared/lib/formatDate';
+import { useDocumentTitle } from '@/shared/lib/useDocumentTitle';
 import './EventDetailsPage.css';
 
 export function EventDetailsPage() {
   const { eventId = '' } = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [highlightedCommentId, setHighlightedCommentId] = useState<string | null>(null);
   const customEvents = useAppStore((state) => state.customEvents);
   const comments = useAppStore((state) => state.comments);
+  const profile = useAppStore((state) => state.profile);
+  const removeEvent = useAppStore((state) => state.removeEvent);
+  const removeComment = useAppStore((state) => state.removeComment);
 
   const event = [...initialEvents, ...customEvents].find((item) => item.id === eventId);
   const eventComments = useMemo(
@@ -20,6 +25,7 @@ export function EventDetailsPage() {
     [comments, eventId],
   );
   const commentFromProfile = searchParams.get('comment');
+  useDocumentTitle(event?.title ?? 'Событие не найдено');
 
   useEffect(() => {
     if (!commentFromProfile || !eventComments.some((item) => item.id === commentFromProfile)) {
@@ -52,7 +58,22 @@ export function EventDetailsPage() {
         <Link to="/events">
           <ArrowLeft size={16} /> Все события
         </Link>
-        <span>{event.category}</span>
+        <div className="event-details__actions">
+          <span>{event.category}</span>
+          {event.creatorEmail === profile?.email && (
+            <button
+              type="button"
+              onClick={() => {
+                if (window.confirm('Удалить это событие и все его комментарии?')) {
+                  removeEvent(event.id);
+                  navigate('/events');
+                }
+              }}
+            >
+              <Trash2 size={13} /> Удалить
+            </button>
+          )}
+        </div>
       </div>
 
       <header className="event-details__hero">
@@ -93,7 +114,7 @@ export function EventDetailsPage() {
               </div>
             ))
           ) : (
-            <p className="timeline__empty">Хронология для этого события пока не добавлена.</p>
+            <p className="timeline__empty">Для этого события отдельная хронология не указана.</p>
           )}
         </aside>
       </section>
@@ -122,8 +143,23 @@ export function EventDetailsPage() {
                 }
               >
                 <header>
-                  <strong>{comment.author}</strong>
-                  <time>{formatDate(comment.createdAt)}</time>
+                  <div>
+                    <strong>{comment.author}</strong>
+                    <time>{formatDate(comment.createdAt)}</time>
+                  </div>
+                  {comment.authorEmail === profile?.email && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (window.confirm('Удалить комментарий?')) {
+                          removeComment(comment.id);
+                        }
+                      }}
+                      aria-label="Удалить комментарий"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  )}
                 </header>
                 <p>{comment.text}</p>
               </article>

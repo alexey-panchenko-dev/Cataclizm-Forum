@@ -5,12 +5,16 @@ import { useAppStore } from '@/app/store/useAppStore';
 import { CreateSupportModal } from '@/features/support/CreateSupportModal/CreateSupportModal';
 import { EmptyState } from '@/shared/ui/EmptyState/EmptyState';
 import { EntryCard } from '@/shared/ui/EntryCard/EntryCard';
+import { useDocumentTitle } from '@/shared/lib/useDocumentTitle';
 
 export function SupportPage() {
+  useDocumentTitle('Поддержка');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const profile = useAppStore((state) => state.profile);
   const resources = useAppStore((state) => state.supportResources);
+  const removeResource = useAppStore((state) => state.removeSupportResource);
 
   function openForm() {
     if (!profile) {
@@ -47,6 +51,15 @@ export function SupportPage() {
               title={resource.title}
               text={resource.description}
               meta={resource.contact}
+              onDelete={
+                profile?.email === resource.creatorEmail
+                  ? () => {
+                      if (window.confirm('Удалить этот материал?')) {
+                        removeResource(resource.id);
+                      }
+                    }
+                  : undefined
+              }
             />
           ))}
         </section>

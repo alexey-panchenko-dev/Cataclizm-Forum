@@ -16,4 +16,5 @@ export type DisasterEvent = {
   sourceName: string;
   sourceUrl: string;
   timeline: TimelineItem[];
+  creatorEmail?: string;
 };

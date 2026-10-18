@@ -1,5 +1,6 @@
 import { ArrowUpRight, BookOpen, HeartHandshake, UserRound } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useDocumentTitle } from '@/shared/lib/useDocumentTitle';
 import './HomePage.css';
 
 const steps = [
@@ -15,12 +16,14 @@ const steps = [
   },
   {
     icon: UserRound,
-    title: 'Сохраните важное',
-    text: 'Позже здесь появятся личная история, сохранённые события и полезные материалы.',
+    title: 'Следите за активностью',
+    text: 'В профиле собраны ваши комментарии и быстрые переходы к обсуждениям.',
   },
 ];
 
 export function HomePage() {
+  useDocumentTitle('Главная');
+
   return (
     <main>
       <section className="hero">

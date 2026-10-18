@@ -6,12 +6,16 @@ import { CreateRequestModal } from '@/features/requests/CreateRequestModal/Creat
 import { formatDate } from '@/shared/lib/formatDate';
 import { EmptyState } from '@/shared/ui/EmptyState/EmptyState';
 import { EntryCard } from '@/shared/ui/EntryCard/EntryCard';
+import { useDocumentTitle } from '@/shared/lib/useDocumentTitle';
 
 export function RequestsPage() {
+  useDocumentTitle('Запросы о помощи');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const profile = useAppStore((state) => state.profile);
   const requests = useAppStore((state) => state.helpRequests);
+  const removeRequest = useAppStore((state) => state.removeHelpRequest);
 
   function openForm() {
     if (!profile) {
@@ -45,6 +49,15 @@ export function RequestsPage() {
               title={request.title}
               text={request.description}
               meta={`${request.author} · ${request.contact} · ${formatDate(request.createdAt)}`}
+              onDelete={
+                profile?.email === request.authorEmail
+                  ? () => {
+                      if (window.confirm('Удалить этот запрос?')) {
+                        removeRequest(request.id);
+                      }
+                    }
+                  : undefined
+              }
             />
           ))}
         </section>

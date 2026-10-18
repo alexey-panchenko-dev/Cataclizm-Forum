@@ -31,7 +31,7 @@
   padding: 26px;
   border: 1px solid var(--ink);
   background: var(--surface);
-  box-shadow: 16px 16px 0 #d9d8d1;
+  box-shadow: 16px 16px 0 var(--shadow);
   flex-direction: column;
 }
 
@@ -163,11 +163,11 @@
 
 .archive-callout:hover {
   background: var(--ink);
-  color: white;
+  color: var(--paper);
 }
 
 .archive-callout:hover .eyebrow {
-  color: #d88779;
+  color: var(--accent);
 }
 
 .archive-callout h2 {

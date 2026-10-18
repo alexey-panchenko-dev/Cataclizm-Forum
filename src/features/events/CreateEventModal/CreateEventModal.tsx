@@ -6,13 +6,30 @@ type CreateEventModalProps = {
   onClose: () => void;
 };
 
+function parseTimeline(value: string) {
+  return value
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line, index) => {
+      const [time, ...textParts] = line.split('—');
+      return {
+        time: textParts.length > 0 ? time.trim() : String(index + 1),
+        text: textParts.length > 0 ? textParts.join('—').trim() : time.trim(),
+      };
+    });
+}
+
 export function CreateEventModal({ onClose }: CreateEventModalProps) {
+  const profile = useAppStore((state) => state.profile);
   const addEvent = useAppStore((state) => state.addEvent);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const dateValue = String(form.get('date'));
+
+    if (!profile) return;
 
     addEvent({
       id: `event-${Date.now()}`,
@@ -30,7 +47,8 @@ export function CreateEventModal({ onClose }: CreateEventModalProps) {
       description: String(form.get('description')),
       sourceName: String(form.get('sourceName') || 'Добавлено пользователем'),
       sourceUrl: String(form.get('sourceUrl') || ''),
-      timeline: [],
+      timeline: parseTimeline(String(form.get('timeline') || '')),
+      creatorEmail: profile.email,
     });
 
     onClose();
@@ -66,6 +84,13 @@ export function CreateEventModal({ onClose }: CreateEventModalProps) {
         <label className="full-width">
           Полное описание
           <textarea name="description" required placeholder="Подробности события" />
+        </label>
+        <label className="full-width">
+          Хронология
+          <textarea
+            name="timeline"
+            placeholder={'Каждое событие с новой строки. Например:\n08:30 — началась эвакуация'}
+          />
         </label>
         <label>
           Название источника

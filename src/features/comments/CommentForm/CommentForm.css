@@ -44,7 +44,7 @@
   padding: 11px 15px;
   border: 0;
   background: var(--ink);
-  color: white;
+  color: var(--paper);
   cursor: pointer;
 }
 

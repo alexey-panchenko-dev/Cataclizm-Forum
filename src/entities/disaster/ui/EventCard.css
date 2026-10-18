@@ -12,7 +12,7 @@
   justify-content: space-between;
   padding: 20px;
   border-right: 1px solid var(--line);
-  background: #e5e3dc;
+  background: var(--soft);
   flex-direction: column;
 }
 
